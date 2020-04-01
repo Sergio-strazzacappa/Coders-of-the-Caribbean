@@ -27,5 +27,5 @@ int Point::get_y()
 
 string Point::debug()
 {
-    return "( " + to_string(this->x) + " " + to_string(this->y) + " )"; 
+    return "(" + to_string(this->x) + ", " + to_string(this->y) + ")"; 
 }

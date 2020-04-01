@@ -17,3 +17,8 @@ Entity::Entity(int id, string type, Point coordinate)
     this->type = type;
     this->coordinate = coordinate;
 }
+
+string Entity::debug()
+{
+    return "Id: " + to_string(this->id) + " Type: " + this->type + " Coord: " + this->coordinate.debug(); 
+}

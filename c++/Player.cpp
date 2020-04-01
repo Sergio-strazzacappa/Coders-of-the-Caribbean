@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Point.h"
 #include "Entity.h"
+#include "Ship.h"
 
 using namespace std;
 
@@ -18,28 +19,68 @@ void print_map()
     }
 }
 
+void print_ships()
+{
+    cerr << "List of ships: " << endl;
+    for(auto s : ships)
+    {
+        cerr << s.debug() << endl;
+    }
+}
+
+void print_barrels()
+{
+    cerr << "List of barrels: " << endl;
+    for(auto b : barrel)
+    {
+        cerr << b.debug() << endl;
+    }
+}
+
+void reset()
+{
+    ships.clear();
+    barrel.clear();
+}
+
 int main()
 {
-    int my_ship_count;
-    int entity_count;
     while(true)
     {
         cin >> my_ship_count;
         cin.ignore();
         cin >> entity_count;
         cin.ignore();
+
+        reset();
+        
         for(int i = 0; i < entity_count; i++)
         {
             int entity_id;
             string entity_type;
             int x;
             int y;
+            int arg1, arg2, arg3, arg4;
 
-            cin >> entity_id >> entity_type >> x >> y;
+            cin >> entity_id >> entity_type >> x >> y >> arg1 >> arg2 >> arg3 >> arg4;
+            cin.ignore();
 
-            Point coordinate(x, y);
-            Entity(entity_id, entity_type, coordinate);
+            if(entity_type == "SHIP")
+            {
+                // Ship
+                Ship s(entity_id, entity_type, Point(x, y), arg1, arg2, arg3, arg4);
+                ships.push_back(s);
+            }
+            else if(entity_type == "BARREL")
+            {
+                // Barrel
+                Barrel b(entity_id, entity_type, Point(x, y), arg1);
+                barrel.push_back(b);
+            }
         }
+        print_ships();
+        print_barrels();
+        cout << "WAIT" << endl;
     }
     return 0;
 }

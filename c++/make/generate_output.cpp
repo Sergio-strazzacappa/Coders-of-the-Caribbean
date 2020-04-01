@@ -5,16 +5,18 @@
 
 using namespace std;
 
-const int FILES_QUANTITY = 8;
+const int FILES_QUANTITY = 10;
 const vector<string> INPUT_FILES = {
     "../Point.h",
     "../Entity.h",
     "../Ship.h",
+    "../Barrel.h",
     "../Player.h",
 
     "../Point.cpp",
     "../Entity.cpp",
     "../Ship.cpp",
+    "../Barrel.cpp",
     "../Player.cpp"
 };
 const string OUTPUT_FILE = "Codingame.cpp";
@@ -43,7 +45,10 @@ void copy_directives()
 		{
 			line = DIRECTIVES[i];
 			output_file << line;
-			output_file << endl;
+            if(i != DIRECTIVES.size() - 1)
+            {
+                output_file << endl;
+            }
 		}
 		output_file.close();
 	}	
