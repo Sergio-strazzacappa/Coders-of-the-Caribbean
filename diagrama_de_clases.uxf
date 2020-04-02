@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>10</y>
+      <w>190</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>Entity
+-
+int id
+string type
+Point coordinate
+-
+Entity()
+Entity(int, string, Point)
+int get_id()
+string get_type()
+Point get_coordinate()
+void set_id(int)
+void set_type(type)
+void set_coordinate(Point)
+string debug()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>350</y>
+      <w>240</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Ship
+-
+int orientation
+int speed
+int remaining_rum
+int owner
+-
+Ship()
+Ship(int, string, Point, int, int, int, int)
+int get_orientation()
+int get_speed()
+int get_remaining_rum()
+int get_owner()
+void set_orientation(int)
+void set_speed(int)
+void set_remaining_rum(int)
+void set_owner(int)
+string debug()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>790</x>
+      <y>230</y>
+      <w>110</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>340</y>
+      <w>180</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Barrel
+-
+int quantity
+-
+Barrel()
+Barrel(int, string, Point, int)
+int get_quantity()
+void set_quantity(int)
+string debug()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>230</y>
+      <w>190</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;110.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>380</y>
+      <w>200</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Player
+-
+int ship_count
+vector&lt;Ship&gt; ships
+-
+Player()
+Player(int, vector&lt;Ship&gt;)
+int get_ship_count()
+vector&lt;Ship&gt; get_ships()
+void set_ship_count(int)
+void set_ships(vector&lt;Ship&gt;)
+void add_ship(Ship ship)
+string debug()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>500</y>
+      <w>580</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..3</panel_attributes>
+    <additional_attributes>560.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>10</y>
+      <w>250</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>Game
+-
+int entity_count
+vector&lt;Player&gt; players
+vector&lt;Barril&gt; barrils
+-
+Game()
+int get_entity_count()
+Player get_player1()
+Player get_player2()
+void set_entity_count(int)
+void add_player(int, Ship)
+string debug()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>210</y>
+      <w>150</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..2</panel_attributes>
+    <additional_attributes>10.0;170.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>130</y>
+      <w>230</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes>
+    <additional_attributes>200.0;210.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

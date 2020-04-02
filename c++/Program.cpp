@@ -1,17 +1,29 @@
-#include <string>
 #include <iostream>
+#include "Services/Io.h"
+#include "Models/Game.h"
+
+using namespace std;
+
+/*#include <string>
 #include "Player.h"
 #include "Point.h"
 #include "Entity.h"
 #include "Ship.h"
+/*
+const int X = 23;
+const int Y = 21;
 
-using namespace std;
+array<array<Point, X>, Y> map;
+const string ACTIONS[] =
+{
+
+};
 
 void print_map()
 {
     for(auto y : map)
     {
-        for(auto x: y)
+        for(auto x : y)
         {
             cerr << x.debug() + ' ';
         }
@@ -42,29 +54,26 @@ void reset()
     ships.clear();
     barrel.clear();
 }
+*/
+
+// TODO: Revisar la entrada de datos. Los datos internos no se 
+// actualizan correctamente, por ejemplo:
+// game.get_player1().set_ship_count(ship_count);
+// Revisar el diagrama de clases, esta desalineado
 
 int main()
 {
     while(true)
     {
-        cin >> my_ship_count;
-        cin.ignore();
-        cin >> entity_count;
-        cin.ignore();
-
-        reset();
         
-        for(int i = 0; i < entity_count; i++)
-        {
-            int entity_id;
-            string entity_type;
-            int x;
-            int y;
-            int arg1, arg2, arg3, arg4;
-
-            cin >> entity_id >> entity_type >> x >> y >> arg1 >> arg2 >> arg3 >> arg4;
-            cin.ignore();
-
+        Game game = Io::read_turn();
+        cerr << game.debug() << endl;
+        cerr << game.get_player1().get_ships().size() << endl;
+    }
+    return 0;
+}
+        
+ /* 
             if(entity_type == "SHIP")
             {
                 // Ship
@@ -82,5 +91,4 @@ int main()
         print_barrels();
         cout << "WAIT" << endl;
     }
-    return 0;
-}
+*/

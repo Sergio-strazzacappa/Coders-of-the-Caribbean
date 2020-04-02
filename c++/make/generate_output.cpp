@@ -5,19 +5,23 @@
 
 using namespace std;
 
-const int FILES_QUANTITY = 10;
+const int FILES_QUANTITY = 15;
 const vector<string> INPUT_FILES = {
-    "../Point.h",
-    "../Entity.h",
-    "../Ship.h",
-    "../Barrel.h",
-    "../Player.h",
-
-    "../Point.cpp",
-    "../Entity.cpp",
-    "../Ship.cpp",
-    "../Barrel.cpp",
-    "../Player.cpp"
+    "../Models/Map/Point.h",
+    "../Models/Map/Point.cpp",
+    "../Models/Objects/Entity.h",
+    "../Models/Objects/Entity.cpp",
+    "../Models/Objects/Barrel.h",
+    "../Models/Objects/Barrel.cpp",
+    "../Models/Objects/Ship.h",
+    "../Models/Objects/Ship.cpp",
+    "../Models/Player.h",
+    "../Models/Player.cpp",
+    "../Models/Game.h",
+    "../Models/Game.cpp",
+    "../Services/Io.h",
+    "../Services/Io.cpp",
+    "../Program.cpp"
 };
 const string OUTPUT_FILE = "Codingame.cpp";
 const vector<string> DIRECTIVES = {
