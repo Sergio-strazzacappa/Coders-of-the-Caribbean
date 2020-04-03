@@ -19,8 +19,11 @@ class Game
         int get_entity_count();
         Player get_player1();
         Player get_player2();
-        void add_ship(int indice, Ship ship);
+        vector<Barrel> get_barrels();
         void set_entity_count(int entity_count);
+        void set_ship_count(int ship_count);
+        void add_ship(int indice, Ship ship);
+        void add_barrel(Barrel barrel);
         string debug();
 };
 

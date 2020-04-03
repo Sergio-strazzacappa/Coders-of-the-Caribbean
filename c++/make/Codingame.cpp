@@ -2,6 +2,7 @@
 #include <array>
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 
@@ -15,10 +16,14 @@ class Point
         Point(int x, int y);
         int get_x();
         int get_y();
+        void set_x(int x);
+        void set_y(int y);
+        double distance(Point point);
         string debug();
 };
 
 
+// Constructors
 Point::Point()
 {
     this->x = 0;
@@ -30,7 +35,8 @@ Point::Point(int x, int y)
     this->x = x;
     this->y = y;
 }
-        
+
+// Getters
 int Point::get_x()
 {
     return this->x;
@@ -39,6 +45,23 @@ int Point::get_x()
 int Point::get_y()
 {
     return this->y;
+}
+
+// Setters
+void Point::set_x(int x)
+{
+    this->x = x;
+}
+
+void Point::set_y(int y)
+{
+    this->y = y;
+}
+
+// Calcula la distancia entre dos puntos
+double Point::distance(Point point)
+{
+    return sqrt(pow(this->x - point.get_x(), 2) + pow(this->y - point.get_y(), 2));
 }
 
 string Point::debug()
@@ -324,7 +347,6 @@ void Player::set_ships(vector<Ship> ships)
 void Player::add_ship(Ship ship)
 {
     this->ships.push_back(ship);
-    cerr << "Agregando barco" << endl;
 }
 
 string Player::debug()
@@ -332,9 +354,9 @@ string Player::debug()
     string output = "Player: { "  + to_string(this->ship_count);
     for(int i = 0; i < ship_count; i++)
     {
-        output += ", " + this->ships[i].get_coordinate().debug();
+        output += "\n " + this->ships[i].get_coordinate().debug();
     }
-    output += " } ";
+    output += " \n } ";
     return output;
 }
 
@@ -351,8 +373,11 @@ class Game
         int get_entity_count();
         Player get_player1();
         Player get_player2();
-        void add_ship(int indice, Ship ship);
+        vector<Barrel> get_barrels();
         void set_entity_count(int entity_count);
+        void set_ship_count(int ship_count);
+        void add_ship(int indice, Ship ship);
+        void add_barrel(Barrel barrel);
         string debug();
 };
 
@@ -370,7 +395,6 @@ Game::Game()
 }
 
 // Getters
-
 int Game::get_entity_count()
 {
     return this->entity_count;
@@ -386,40 +410,54 @@ Player Game::get_player2()
     return this->players[1];
 }
 
-// Setters
+vector<Barrel> Game::get_barrels()
+{
+    return this->barrels;
+}
 
+// Setters
 void Game::set_entity_count(int entity_count)
 {
     this->entity_count = entity_count;
 }
 
+void Game::set_ship_count(int ship_count)
+{
+    this->players[0].set_ship_count(ship_count);
+    this->players[1].set_ship_count(ship_count);
+}
+
 void Game::add_ship(int index, Ship ship)
 {
     this->players[index].add_ship(ship);
-    cerr << this->players[index].debug() << endl;
+}
+
+void Game::add_barrel(Barrel barrel)
+{
+    this->barrels.push_back(barrel);
 }
 
 string Game::debug()
 {
-    string output = "Game: { " + to_string(this->entity_count);
+    string output = "Game: { Entity count: " + to_string(this->entity_count);
     Player p1 = this->players[0];
-    output += ", Player 1: ";
+    output += "\nPlayer 1: ";
     for(int i = 0; i < p1.get_ship_count(); i++)
     {
-        output += this->players[0].get_ships()[i].debug() + " - ";
+        output += "\n" + this->players[0].get_ships()[i].debug();
     }
     Player p2 = this->players[1];
-    output += ", Player 2: ";
+    output += "\nPlayer 2: ";
     for(int i = 0; i < p2.get_ship_count(); i++)
     {
-        output += this->players[1].get_ships()[i].debug() + " - ";
+        output += "\n" + this->players[1].get_ships()[i].debug();
     }
-    output += ", Barrels: ";
+    output += "\nBarrels: ";
     for(int i = 0; i < this->barrels.size(); i++)
     {
-        output += barrels[i].get_coordinate().debug() + " - ";
+        output += "\n" + barrels[i].get_coordinate().debug();
     }
-    output += " }";
+    output += "\n}";
     return output;
 }
 
@@ -428,7 +466,13 @@ string Game::debug()
 class Io
 {
     public:
+        //Input methods
         static Game read_turn();
+        //Output methods
+        static void move(Point position);
+        //Error methods
+        static void print_game_state(Game game);
+        
 };
 
 
@@ -445,12 +489,8 @@ Game Io::read_turn()
     cin >> entity_count;
     cin.ignore();
     game.set_entity_count(entity_count);
-    Player player1();
-    Player player2();
-    game.get_player1().set_ship_count(ship_count);
-    game.get_player2().set_ship_count(ship_count);
-    cerr << game.get_player1().debug() << endl;
-
+    game.set_ship_count(ship_count);
+    
     for(int i = 0; i < entity_count; i++)
     {
         int entity_id;
@@ -479,9 +519,25 @@ Game Io::read_turn()
                 game.add_ship(0, ship);
             }
         }
+        else if(entity_type == "BARREL")
+        {
+            Barrel barrel(entity_id, entity_type, Point(x, y), arg1);
+            game.add_barrel(barrel);
+        }
     }
     return game;   
 }
+
+void Io::move(Point position)
+{   
+    cout << "MOVE " << position.get_x() << " " << position.get_y() << endl;
+}
+
+void Io::print_game_state(Game game)
+{
+    cerr << game.debug() << endl;
+}
+
 
 
 /*
@@ -506,58 +562,49 @@ void print_map()
     }
 }
 
-void print_ships()
-{
-    cerr << "List of ships: " << endl;
-    for(auto s : ships)
-    {
-        cerr << s.debug() << endl;
-    }
-}
-
-void print_barrels()
-{
-    cerr << "List of barrels: " << endl;
-    for(auto b : barrel)
-    {
-        cerr << b.debug() << endl;
-    }
-}
-
-void reset()
-{
-    ships.clear();
-    barrel.clear();
-}
 */
+
+//  TODO: Revisar los debug()
+
+// Determina cual es el barril mas cercano a ship
+Barrel nearest_barrel(Ship ship, vector<Barrel> barrels)
+{
+    Barrel barrel;
+    Point ship_position = ship.get_coordinate();
+    double min_distance = 99999;
+    for(int i = 0; i < barrels.size(); i++)
+    {
+        Point barrel_position = barrels[i].get_coordinate();
+        double distance = ship_position.distance(barrel_position);
+        //cerr << "Distancia entre: " << ship_position.debug() << " y " << barrel_position.debug() << " es de " << distance << endl;
+        if(distance < min_distance)
+        {
+            min_distance = distance;
+            barrel = barrels[i];
+        }
+    }
+    return barrel;
+}
 
 int main()
 {
     while(true)
     {
         Game game = Io::read_turn();
-        cerr << game.debug() << endl;
-        cerr << game.get_player1().get_ships().size() << endl;
+        string s;
+        //Io::print_game_state();
+        int ship_count = game.get_player1().get_ship_count();
+        vector<Barrel> barrels = game.get_barrels();
+        for(int i = 0; i < ship_count; i++)
+        {
+            Ship ship = game.get_player1().get_ships()[i];
+            Barrel barrel = nearest_barrel(ship, barrels);
+            Io::move(barrel.get_coordinate());
+        }
     }
     return 0;
 }
         
  /* 
-            if(entity_type == "SHIP")
-            {
-                // Ship
-                Ship s(entity_id, entity_type, Point(x, y), arg1, arg2, arg3, arg4);
-                ships.push_back(s);
-            }
-            else if(entity_type == "BARREL")
-            {
-                // Barrel
-                Barrel b(entity_id, entity_type, Point(x, y), arg1);
-                barrel.push_back(b);
-            }
-        }
-        print_ships();
-        print_barrels();
         cout << "WAIT" << endl;
-    }
 */

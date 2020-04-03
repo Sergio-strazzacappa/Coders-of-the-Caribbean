@@ -4,6 +4,8 @@
 #include "../Models/Game.h"
 #include "../Models/Player.h"
 #include "../Models/Map/Point.h"
+#include "../Models/Objects/Ship.h"
+#include "../Models/Objects/Barrel.h"
 
 using namespace std;
 
@@ -19,11 +21,8 @@ Game Io::read_turn()
     cin >> entity_count;
     cin.ignore();
     game.set_entity_count(entity_count);
-    Player player1();
-    Player player2();
-    game.get_player1().set_ship_count(ship_count);
-    game.get_player2().set_ship_count(ship_count);
-
+    game.set_ship_count(ship_count);
+    
     for(int i = 0; i < entity_count; i++)
     {
         int entity_id;
@@ -52,6 +51,22 @@ Game Io::read_turn()
                 game.add_ship(0, ship);
             }
         }
+        else if(entity_type == "BARREL")
+        {
+            Barrel barrel(entity_id, entity_type, Point(x, y), arg1);
+            game.add_barrel(barrel);
+        }
     }
     return game;   
 }
+
+void Io::move(Point position)
+{   
+    cout << "MOVE " << position.get_x() << " " << position.get_y() << endl;
+}
+
+void Io::print_game_state(Game game)
+{
+    cerr << game.debug() << endl;
+}
+

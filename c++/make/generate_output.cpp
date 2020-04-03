@@ -29,6 +29,7 @@ const vector<string> DIRECTIVES = {
 	"#include <array>",
     "#include <iostream>",
     "#include <vector>",
+    "#include <cmath>",
     "using namespace std;"
 };
 

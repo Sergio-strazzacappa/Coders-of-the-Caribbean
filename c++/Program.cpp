@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Services/Io.h"
 #include "Models/Game.h"
+#include "Models/Objects/Barrel.h"
+#include "Map/Point.h"
 
 using namespace std;
 
@@ -31,64 +33,49 @@ void print_map()
     }
 }
 
-void print_ships()
-{
-    cerr << "List of ships: " << endl;
-    for(auto s : ships)
-    {
-        cerr << s.debug() << endl;
-    }
-}
-
-void print_barrels()
-{
-    cerr << "List of barrels: " << endl;
-    for(auto b : barrel)
-    {
-        cerr << b.debug() << endl;
-    }
-}
-
-void reset()
-{
-    ships.clear();
-    barrel.clear();
-}
 */
 
-// TODO: Revisar la entrada de datos. Los datos internos no se 
-// actualizan correctamente, por ejemplo:
-// game.get_player1().set_ship_count(ship_count);
-// Revisar el diagrama de clases, esta desalineado
+//  TODO: Revisar los debug()
+
+// Determina cual es el barril mas cercano a ship
+Barrel nearest_barrel(Ship ship, vector<Barrel> barrels)
+{
+    Barrel barrel;
+    Point ship_position = ship.get_coordinate();
+    double min_distance = 99999;
+    for(int i = 0; i < barrels.size(); i++)
+    {
+        Point barrel_position = barrels[i].get_coordinate();
+        double distance = ship_position.distance(barrel_position);
+        //cerr << "Distancia entre: " << ship_position.debug() << " y " << barrel_position.debug() << " es de " << distance << endl;
+        if(distance < min_distance)
+        {
+            min_distance = distance;
+            barrel = barrels[i];
+        }
+    }
+    return barrel;
+}
 
 int main()
 {
     while(true)
     {
-        
         Game game = Io::read_turn();
-        cerr << game.debug() << endl;
-        cerr << game.get_player1().get_ships().size() << endl;
+        string s;
+        //Io::print_game_state();
+        int ship_count = game.get_player1().get_ship_count();
+        vector<Barrel> barrels = game.get_barrels();
+        for(int i = 0; i < ship_count; i++)
+        {
+            Ship ship = game.get_player1().get_ships()[i];
+            Barrel barrel = nearest_barrel(ship, barrels);
+            Io::move(barrel.get_coordinate());
+        }
     }
     return 0;
 }
         
  /* 
-            if(entity_type == "SHIP")
-            {
-                // Ship
-                Ship s(entity_id, entity_type, Point(x, y), arg1, arg2, arg3, arg4);
-                ships.push_back(s);
-            }
-            else if(entity_type == "BARREL")
-            {
-                // Barrel
-                Barrel b(entity_id, entity_type, Point(x, y), arg1);
-                barrel.push_back(b);
-            }
-        }
-        print_ships();
-        print_barrels();
         cout << "WAIT" << endl;
-    }
 */

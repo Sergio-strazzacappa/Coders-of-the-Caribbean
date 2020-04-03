@@ -41,7 +41,6 @@ void Player::set_ships(vector<Ship> ships)
 void Player::add_ship(Ship ship)
 {
     this->ships.push_back(ship);
-    cerr << "Agregando barco" << endl;
 }
 
 string Player::debug()
@@ -49,8 +48,8 @@ string Player::debug()
     string output = "Player: { "  + to_string(this->ship_count);
     for(int i = 0; i < ship_count; i++)
     {
-        output += ", " + this->ships[i].get_coordinate().debug();
+        output += "\n " + this->ships[i].get_coordinate().debug();
     }
-    output += " } ";
+    output += " \n } ";
     return output;
 }
